@@ -15,7 +15,7 @@ EdmoCodegenerator is a database centric template based code generator for any te
 * Click the "Generate!" button
 
 ## Built With
-* WPF (https://github.com/dotliquid/dotliquid) - Windows Presentation Foundation (WPF) is a next-generation presentation system for building Windows client applications with visually stunning user experiences
+* WPF - Windows Presentation Foundation (WPF) is a next-generation presentation system for building Windows client applications with visually stunning user experiences
 * [Dotliquid](https://github.com/dotliquid/dotliquid) - .NET Port of Tobias Lütke's Liquid template language
 * [DatabaseSchemaReader](https://github.com/martinjw/dbschemareader) -A simple, cross-database facade over .Net 2.0 DbProviderFactories to read database metadata.
 * [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) - Google's Material Design in XAML & WPF, for C# & VB.Net
