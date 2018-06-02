@@ -19,7 +19,7 @@ EdmoCodegenerator is a database centric template based code generator for any te
 * [Dotliquid](https://github.com/dotliquid/dotliquid) - .NET Port of Tobias Lütke's Liquid template language
 * [DatabaseSchemaReader](https://github.com/martinjw/dbschemareader) -A simple, cross-database facade over .Net 2.0 DbProviderFactories to read database metadata.
 * [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) - Google's Material Design in XAML & WPF, for C# & VB.Net
-* [MahApps.Metro](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) - A toolkit for creating Metro / Modern UI styled WPF apps
+* [MahApps.Metro](https://github.com/MahApps/MahApps.Metro) - A toolkit for creating Metro / Modern UI styled WPF apps
 * [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json) - Json.NET is a popular high-performance JSON framework for .NET.
 * [AlphaFS](https://github.com/alphaleonis/AlphaFS) - AlphaFS is a .NET library providing more complete Win32 file system functionality to the .NET platform than the standard System.IO classes
 
