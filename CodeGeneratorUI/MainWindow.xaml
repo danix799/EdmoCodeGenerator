@@ -10,11 +10,12 @@
         TextElement.FontSize="14"
         GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"        
-        WindowStartupLocation="CenterScreen"
-        Title="CodeGenerator" Height="350" Width="700">
+        WindowStartupLocation="CenterScreen" MinHeight="500" MinWidth="700"
+        Title="CodeGenerator">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <md:ColorZone Height="50"  Mode="PrimaryMid" Grid.Row="0">
@@ -31,13 +32,25 @@
 
             </Grid>
         </md:ColorZone>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{StaticResource HighlightBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="0">
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="White">Databases</TextBlock>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Foreground="White">Schema</TextBlock>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Center" Foreground="White">Templates</TextBlock>
+         </Grid>
+        <Grid Grid.Row="2">           
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" x:Name="GridSectionDatabase">
                 <ListBox x:Name="listDatabases" Button.Click="OnClickListDatabase">
                     <ListBox.Resources>
 
@@ -80,10 +93,10 @@
                 </Border>
 
             </Grid>
-            <Grid Grid.Column="2">
+            <Grid Grid.Column="2" x:Name="GridSectionTemplates">
 
                 <TreeView x:Name="treeTemplates">
-
+                    
                 </TreeView>
                 <Button VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFlatButton}" Click="onClickCreateTemplate">
                     <StackPanel Orientation="Horizontal">

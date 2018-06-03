@@ -15,8 +15,7 @@ namespace CodeGenerator.Helpers
        {
            //https://github.com/martinjw/dbschemareader/wiki/Schema-Reading
            var dbReader = new DatabaseReader(db.ConnectionString,db.Provider);
-
-           dbReader.Owner = "SALARYWORKSHEET";
+           dbReader.Owner = db.Owner ;
            return dbReader.ReadAll();           
        }
        

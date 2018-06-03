@@ -95,9 +95,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="windows\WinDatabase.xaml.cs">
+    <Compile Include="Controls\MessageNoDatabase.xaml.cs">
+      <DependentUpon>MessageNoDatabase.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MessageNoTemplate.xaml.cs">
+      <DependentUpon>MessageNoTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validators\NotEmptyValidationRule.cs" />
+    <Compile Include="Validators\NotSelectedComboboxItemValidationRule.cs" />
+    <Compile Include="Windows\WinDatabase.xaml.cs">
       <DependentUpon>WinDatabase.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\MessageNoDatabase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MessageNoTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,7 +126,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="windows\WinDatabase.xaml">
+    <Page Include="Windows\WinDatabase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,6 +171,9 @@
   <ItemGroup>
     <Resource Include="img\app_icon.ico" />
     <Resource Include="img\app_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

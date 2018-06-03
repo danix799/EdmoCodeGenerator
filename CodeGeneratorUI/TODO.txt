@@ -1,0 +1,3 @@
+﻿delete templates
+add checkbox to templates
+globalization

@@ -12,5 +12,6 @@ namespace CodeGenerator.Objects
       public string Name { set; get; }
       public String Provider { set; get; }
       public string ConnectionString { set; get; }
+      public string Owner { set; get; }
     }
 }

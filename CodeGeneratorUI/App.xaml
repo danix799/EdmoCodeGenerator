@@ -23,9 +23,16 @@
                 <!-- Material Design: MahApps Compatibility -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.MahApps;component/Themes/MaterialDesignTheme.MahApps.Flyout.xaml" />
-
+                
             </ResourceDictionary.MergedDictionaries>
-
+            
+            <!--<ContextMenu x:Key="DeleteContextMenu">
+                <MenuItem Header="Delete" Click="OnClickDeleteTemplate">
+                    <MenuItem.Icon>
+                        <md:PackIcon Kind="Delete"></md:PackIcon>
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>-->
             <!-- MahApps Brushes -->
             <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
             <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{DynamicResource Primary600}" />
@@ -51,35 +58,11 @@
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
 
-
-
-            <Style TargetType="ContextMenu" x:Key="ContextMenuCrud">
-                <Setter Property="SnapsToDevicePixels" Value="True"/>
-                <Setter Property="OverridesDefaultStyle" Value="True"/>
-                <Setter Property="Grid.IsSharedSizeScope" Value="true"/>
-                <Setter Property="HasDropShadow" Value="True"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ContextMenu">
-                            <Border 
-          Name="Border"
-          
-          BorderThickness="1" >
-                                <StackPanel
-                      KeyboardNavigation.DirectionalNavigation="Cycle">
-                                    <MenuItem>a</MenuItem>
-                                </StackPanel>
-                            </Border>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="HasDropShadow" Value="true">
-                                    <Setter TargetName="Border" Property="Padding" Value="0,3,0,3"/>
-                                    <Setter TargetName="Border" Property="CornerRadius" Value="4"/>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
+            <Style TargetType="TextBlock" x:Key="TextBlockFormLabel">
+                <Setter Property="Margin" Value="0,20,0,0"/>
             </Style>
+
+            <SolidColorBrush x:Key="DisabledColor" Color="Gray"></SolidColorBrush>
 
 
 

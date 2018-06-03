@@ -27,6 +27,7 @@ namespace CodeGeneratorUI.windows
         public WinDatabase(Database dbToUpdateRequest = null)
         {
             InitializeComponent();
+            this.DataContext = this;
             this.cmbProviders.ItemsSource = DBProvider.AvailableProviders();
             this.cmbProviders.SelectedValuePath = "ProviderDll";
             this.cmbProviders.DisplayMemberPath = "ProviderName";
@@ -36,30 +37,64 @@ namespace CodeGeneratorUI.windows
                 this.txtName.Text = dbToUpdate.Name;   
                 this.cmbProviders.SelectedItem = DBProvider.FindProviderByProviderDll(dbToUpdate.Provider);
                 this.txtConnectionString.Text = dbToUpdate.ConnectionString;
+                this.txtOwner.Text = dbToUpdate.Owner;
             }
             
         }
 
+        private Boolean ValidateSave() {
+            Boolean HasErrors = false;
+
+            BindingExpression betxtName = this.txtName.GetBindingExpression(TextBox.TextProperty);
+            betxtName.UpdateSource();
+
+            BindingExpression becmbProviders = this.cmbProviders.GetBindingExpression(ComboBox.SelectedItemProperty);
+            becmbProviders.UpdateSource();
+
+            BindingExpression betxtConnectionString = this.txtConnectionString.GetBindingExpression(TextBox.TextProperty);
+            betxtConnectionString.UpdateSource();
+
+            HasErrors = Validation.GetHasError(this.txtName) && Validation.GetHasError(this.cmbProviders) &&
+                Validation.GetHasError(this.txtConnectionString);
+
+           
+            return HasErrors;
+        
+        }
+
         private void OnClickSaveDatabase(object sender, RoutedEventArgs e)
-        {           
-            Database db = new Database();
-            if (dbToUpdate != null)
-                db = dbToUpdate;
-            db.ConnectionString = this.txtConnectionString.Text;
-            db.Name = this.txtName.Text;
-            db.Provider = cmbProviders.SelectedValue.ToString();
+        {
+            try
+            {
+                Boolean HasErrors = this.ValidateSave();
+                if (HasErrors)
+                    return;
 
-            DBSchemaReaderHelper schema = new DBSchemaReaderHelper();
-            schema.GetSchema(db);
+                Database db = new Database();
+                if (dbToUpdate != null)
+                    db = dbToUpdate;
+                db.ConnectionString = this.txtConnectionString.Text;
+                db.Name = this.txtName.Text;
+                db.Provider = cmbProviders.SelectedValue.ToString();
+                db.Owner = this.txtOwner.Text;
 
-            DatabaseStorageHelper storage = new DatabaseStorageHelper();
-            if (dbToUpdate != null)
-                storage.Update(db);
-            else
-            storage.Save(db);
+                DBSchemaReaderHelper schema = new DBSchemaReaderHelper();
+                schema.GetSchema(db);
 
-            MessageBox.Show("Database Connected and Saved Successfull");
-            this.Close();
+                DatabaseStorageHelper storage = new DatabaseStorageHelper();
+                if (dbToUpdate != null)
+                    storage.Update(db);
+                else
+                    storage.Save(db);
+
+                MessageBox.Show("Database Connected and Saved Successfull");
+                this.Close();
+            }
+            catch (Exception ex) {
+                 MessageBox.Show(ex.Message);
+            }
+
+            
 
         }
 

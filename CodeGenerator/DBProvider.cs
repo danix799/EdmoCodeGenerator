@@ -12,9 +12,10 @@ namespace CodeGenerator
 
         public static List<Provider> AvailableProviders()
         {
-            Providers.Add(new Provider() { ProviderName = "SQL Server", ProviderDll = "System.Data.SqlClient", SuggestedConnectionString = "" });
+            Providers.Add(new Provider() { ProviderName = "SQL Server", ProviderDll = "System.Data.SqlClient",
+                SuggestedConnectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;" });
             Providers.Add(new Provider() { ProviderName = "MySql", ProviderDll = "MySql.Data.MySqlClient",
-                SuggestedConnectionString = "Server=SERVER_NAME_HERE;Database=DATABASE_NAME_HERE;Uid=USERNAME_HERE;Pwd=PASSWORD_HERE;SslMode=none;Allow User Variables=True;" });            
+                SuggestedConnectionString = "Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;SslMode=none;Allow User Variables=True;" });            
             return Providers;
         }
         public static Provider FindProviderByProviderDll(String Dll) {

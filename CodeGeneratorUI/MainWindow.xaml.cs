@@ -18,6 +18,7 @@ using Microsoft.Win32;
 using DatabaseSchemaReader.DataSchema;
 using Alphaleonis.Win32.Filesystem;
 using Newtonsoft.Json;
+using CodeGeneratorUI.Controls;
 
 namespace CodeGeneratorUI
 {
@@ -41,13 +42,17 @@ namespace CodeGeneratorUI
         private void LoadListDatabases() {
             listDatabases.Items.Clear();
             List<Database> Databases = SavedDatabases.GetAll();
+            if (Databases.Count == 0) {
+                GridSectionDatabase.Children.Add(new MessageNoDatabase());
+                return;
+            }
+            MessageNoDatabase messageNoDatabase = GridSectionDatabase.Children.OfType<MessageNoDatabase>().FirstOrDefault();
+            GridSectionDatabase.Children.Remove(messageNoDatabase);
+
             foreach (Database db in Databases) {
                 Button btn = new Button();
-                btn.Style = App.Current.Resources["MaterialDesignToolButton"] as Style;
-
+                btn.Style = App.Current.Resources["MaterialDesignToolButton"] as Style;               
                 
-                
-
                 MaterialDesignThemes.Wpf.PackIcon icon = new MaterialDesignThemes.Wpf.PackIcon();
                 icon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Database;
                 icon.Style = App.Current.Resources["MaterialDesignButtonInlineIcon"] as Style;
@@ -126,6 +131,15 @@ namespace CodeGeneratorUI
         private void LoadTemplatesTreeView() {
             treeTemplates.Items.Clear();
             List<Template> templates = SavedTemplates.GetAll();
+            
+            if (templates.Count == 0)
+            {
+                GridSectionTemplates.Children.Add(new MessageNoTemplate());
+                return;
+            }
+            MessageNoTemplate messageNoTemplate = GridSectionTemplates.Children.OfType<MessageNoTemplate>().FirstOrDefault();
+            GridSectionTemplates.Children.Remove(messageNoTemplate);
+
             foreach (Template obj in templates) {                
                 if (obj.IsDirectory)
                 {
@@ -135,6 +149,7 @@ namespace CodeGeneratorUI
 
             }
         }
+
         private static TreeViewItem CreateDirectoryNode(DirectoryInfo directoryInfo)
         {
             var directoryNode = new TreeViewItem { Header = directoryInfo.Name };
@@ -222,12 +237,17 @@ namespace CodeGeneratorUI
 
         private void OnClickDeleteDatabase(object sender, RoutedEventArgs e)
         {
-            Database db = listDatabases.SelectedItem as Database;
+            Database db = (listDatabases.SelectedItem as Button).Tag as Database;
             if (db != null)
             {
                 SavedDatabases.Delete(db.Id);
                 LoadListDatabases();
             }
+        }
+
+        private void OnClickDeleteTemplate(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
