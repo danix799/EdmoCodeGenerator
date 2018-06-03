@@ -23,25 +23,42 @@ namespace CodeGeneratorUI.windows
     /// </summary>
     public partial class WinDatabase : MahApps.Metro.Controls.MetroWindow
     {
-        public WinDatabase()
+        Database dbToUpdate;
+        public WinDatabase(Database dbToUpdateRequest = null)
         {
             InitializeComponent();
+            this.cmbProviders.ItemsSource = DBProvider.AvailableProviders();
+            this.cmbProviders.SelectedValuePath = "ProviderDll";
+            this.cmbProviders.DisplayMemberPath = "ProviderName";
+
+            dbToUpdate = dbToUpdateRequest;
+            if (dbToUpdate != null) {
+                this.txtName.Text = dbToUpdate.Name;   
+                this.cmbProviders.SelectedItem = DBProvider.FindProviderByProviderDll(dbToUpdate.Provider);
+                this.txtConnectionString.Text = dbToUpdate.ConnectionString;
+            }
+            
         }
 
         private void OnClickSaveDatabase(object sender, RoutedEventArgs e)
         {           
             Database db = new Database();
+            if (dbToUpdate != null)
+                db = dbToUpdate;
             db.ConnectionString = this.txtConnectionString.Text;
             db.Name = this.txtName.Text;
-            db.Provider = DBProvider.MySqlClient;
+            db.Provider = cmbProviders.SelectedValue.ToString();
 
             DBSchemaReaderHelper schema = new DBSchemaReaderHelper();
             schema.GetSchema(db);
 
             DatabaseStorageHelper storage = new DatabaseStorageHelper();
+            if (dbToUpdate != null)
+                storage.Update(db);
+            else
             storage.Save(db);
 
-            MessageBox.Show("Database Connected Successfull");
+            MessageBox.Show("Database Connected and Saved Successfull");
             this.Close();
 
         }
@@ -49,6 +66,16 @@ namespace CodeGeneratorUI.windows
         private void OnClickClose(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+
+        private void OnSelectedProvider(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbProviders.SelectedItem != null)
+            {
+                Provider obj = this.cmbProviders.SelectedItem as Provider;
+                this.txtConnectionString.Text = obj.SuggestedConnectionString;
+            }
         }
     }
 }

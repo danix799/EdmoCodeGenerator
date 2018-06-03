@@ -45,9 +45,12 @@ namespace CodeGeneratorUI
                 Button btn = new Button();
                 btn.Style = App.Current.Resources["MaterialDesignToolButton"] as Style;
 
+                
+                
+
                 MaterialDesignThemes.Wpf.PackIcon icon = new MaterialDesignThemes.Wpf.PackIcon();
                 icon.Kind = MaterialDesignThemes.Wpf.PackIconKind.Database;
-                icon.Margin = new Thickness(0, 0, 5, 0);
+                icon.Style = App.Current.Resources["MaterialDesignButtonInlineIcon"] as Style;
 
                 TextBlock text = new TextBlock();
                 text.Text = db.Name;
@@ -69,6 +72,7 @@ namespace CodeGeneratorUI
         private void OnClickCreateDatabase(object sender, RoutedEventArgs e)
         {
             new windows.WinDatabase().ShowDialog();
+            LoadListDatabases();
         }
 
         private void OnClickListDatabase(object sender, RoutedEventArgs e)
@@ -78,6 +82,7 @@ namespace CodeGeneratorUI
                 Database db = btn.Tag as Database;
                 DatabaseSchema schema = SchemaReader.GetSchema(db);
 
+                treeSchema.Items.Clear();
                 TreeViewItem tviTables = new TreeViewItem();
                 tviTables.Header = "Tables";
                 tviTables.Tag = schema.Tables;
@@ -186,6 +191,7 @@ namespace CodeGeneratorUI
                 
             }
             MessageBox.Show("Generate Sucessfull");
+            System.Diagnostics.Process.Start(OutputPath);
         }
         private void CopyDirectory(String SourcePath, String DestinationPath)
         {
@@ -198,6 +204,30 @@ namespace CodeGeneratorUI
             foreach (string newPath in Directory.GetFiles(SourcePath, "*.*",
                 System.IO.SearchOption.AllDirectories))
                 File.Copy(newPath, newPath.Replace(SourcePath, DestinationPath), true);
+        }
+
+        private void OnClickGotoGit(object sender, MouseButtonEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/danix799/EdmoCodeGenerator");
+        }
+
+        private void OnClickModifyDatabase(object sender, RoutedEventArgs e)
+        {
+            Database db = (listDatabases.SelectedItem as Button).Tag as Database;
+            if (db != null) {
+                (new CodeGeneratorUI.windows.WinDatabase(db)).ShowDialog();
+                LoadListDatabases();
+            }
+        }
+
+        private void OnClickDeleteDatabase(object sender, RoutedEventArgs e)
+        {
+            Database db = listDatabases.SelectedItem as Database;
+            if (db != null)
+            {
+                SavedDatabases.Delete(db.Id);
+                LoadListDatabases();
+            }
         }
     }
 }

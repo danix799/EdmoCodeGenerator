@@ -37,7 +37,7 @@ namespace CodeGenerator.Helpers
             List<Database> lines = GetAll();
             Database lineToUpdate = lines.Where(a => a.Id == obj.Id).First();
             lines.Remove(lineToUpdate);
-            lines.Add(lineToUpdate);
+            lines.Add(obj);
             WriteJson(StorageFile, lines);
         }
         public List<Database> GetAll()
