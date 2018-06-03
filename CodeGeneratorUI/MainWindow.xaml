@@ -5,6 +5,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
+                   Icon="./img/app_icon.png"
         TextElement.FontWeight="Medium"
         TextElement.FontSize="14"
         GlowBrush="{DynamicResource AccentColorBrush}"
@@ -25,7 +26,7 @@
                     </StackPanel>
                 </Button>
                 <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right"  >
-                    <md:PackIcon Kind="GithubCircle"   Foreground="White" Height="30" Width="30" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
+                    <md:PackIcon Kind="GithubCircle"   Foreground="White" Height="30" Width="30" ToolTip="Go to Github" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
                 </StackPanel>
 
             </Grid>
