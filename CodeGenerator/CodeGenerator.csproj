@@ -60,7 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBProvider.cs" />
+    <Compile Include="DbProvider.cs" />
     <Compile Include="Helpers\DBSchemaReaderHelper.cs" />
     <Compile Include="Helpers\DotLiquidHelper.cs" />
     <Compile Include="Storage\DatabaseStorageHelper.cs" />

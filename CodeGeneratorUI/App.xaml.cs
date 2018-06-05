@@ -1,15 +1,14 @@
-using CodeGenerator.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Windows;
+using CodeGenerator.Storage;
 
 namespace CodeGeneratorUI
 {
-        public partial class App : Application
+        public partial class App
         {
             public App() {
                 new DatabaseStorageHelper();
                 new TemplateStorageHelper();
+                GC.Collect();
             }
         }
 }                                                                                                                                                                                                                                                                                                                                                                           

@@ -1,18 +1,14 @@
-﻿using Alphaleonis.Win32.Filesystem;
+﻿using System;
+using Alphaleonis.Win32.Filesystem;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CodeGenerator.Helpers
+namespace CodeGenerator.Storage
 {
   public  class StorageHelper
   {
-      public void WriteJson(String StorageFile, Object lines) {
+      protected void WriteJson(String storageFile, Object lines) {
           string json = JsonConvert.SerializeObject(lines);
-          File.WriteAllText(StorageFile, json);
+          File.WriteAllText(storageFile, json);
       }
     }
 }

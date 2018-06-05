@@ -1,115 +1,102 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-//my usings
-using CodeGenerator.Objects;
-using CodeGenerator.Helpers;
 using CodeGenerator;
+using CodeGenerator.Helpers;
+using CodeGenerator.Objects;
+using CodeGenerator.Storage;
 
 namespace CodeGeneratorUI.windows
 {
     /// <summary>
     /// Lógica de interacción para WinDatabase.xaml
     /// </summary>
-    public partial class WinDatabase : MahApps.Metro.Controls.MetroWindow
+    public partial class WinDatabase
     {
-        Database dbToUpdate;
+        readonly Database _dbToUpdate;
         public WinDatabase(Database dbToUpdateRequest = null)
         {
             InitializeComponent();
-            this.DataContext = this;
-            this.cmbProviders.ItemsSource = DBProvider.AvailableProviders();
-            this.cmbProviders.SelectedValuePath = "ProviderDll";
-            this.cmbProviders.DisplayMemberPath = "ProviderName";
+            DataContext = this;
+            CmbProviders.ItemsSource = DbProvider.AvailableProviders();
+            CmbProviders.SelectedValuePath = "ProviderDll";
+            CmbProviders.DisplayMemberPath = "ProviderName";
 
-            dbToUpdate = dbToUpdateRequest;
-            if (dbToUpdate != null) {
-                this.txtName.Text = dbToUpdate.Name;   
-                this.cmbProviders.SelectedItem = DBProvider.FindProviderByProviderDll(dbToUpdate.Provider);
-                this.txtConnectionString.Text = dbToUpdate.ConnectionString;
-                this.txtOwner.Text = dbToUpdate.Owner;
+            _dbToUpdate = dbToUpdateRequest;
+            if (_dbToUpdate != null) {
+                Loaded += (a,b)  => {
+                    TxtName.Text = _dbToUpdate.Name;
+                    CmbProviders.SelectedItem = DbProvider.FindProviderByProviderDll(_dbToUpdate.Provider);
+                    TxtConnectionString.Text = _dbToUpdate.ConnectionString;
+                    TxtOwner.Text = _dbToUpdate.Owner;
+                };
+                
             }
             
         }
 
         private Boolean ValidateSave() {
-            Boolean HasErrors = false;
+            BindingExpression betxtName = TxtName.GetBindingExpression(TextBox.TextProperty);
+            if (betxtName != null) betxtName.UpdateSource();
 
-            BindingExpression betxtName = this.txtName.GetBindingExpression(TextBox.TextProperty);
-            betxtName.UpdateSource();
+            BindingExpression becmbProviders = CmbProviders.GetBindingExpression(Selector.SelectedItemProperty);
+            if (becmbProviders != null) becmbProviders.UpdateSource();
 
-            BindingExpression becmbProviders = this.cmbProviders.GetBindingExpression(ComboBox.SelectedItemProperty);
-            becmbProviders.UpdateSource();
+            BindingExpression betxtConnectionString = TxtConnectionString.GetBindingExpression(TextBox.TextProperty);
+            if (betxtConnectionString != null) betxtConnectionString.UpdateSource();
 
-            BindingExpression betxtConnectionString = this.txtConnectionString.GetBindingExpression(TextBox.TextProperty);
-            betxtConnectionString.UpdateSource();
-
-            HasErrors = Validation.GetHasError(this.txtName) && Validation.GetHasError(this.cmbProviders) &&
-                Validation.GetHasError(this.txtConnectionString);
-
+            Boolean hasErrors = Validation.GetHasError(TxtName) || Validation.GetHasError(CmbProviders) ||
+                             Validation.GetHasError(TxtConnectionString);
            
-            return HasErrors;
-        
+            return hasErrors;        
         }
 
         private void OnClickSaveDatabase(object sender, RoutedEventArgs e)
         {
             try
             {
-                Boolean HasErrors = this.ValidateSave();
-                if (HasErrors)
+                Boolean hasErrors = ValidateSave();
+                if (hasErrors)
                     return;
-
+                
                 Database db = new Database();
-                if (dbToUpdate != null)
-                    db = dbToUpdate;
-                db.ConnectionString = this.txtConnectionString.Text;
-                db.Name = this.txtName.Text;
-                db.Provider = cmbProviders.SelectedValue.ToString();
-                db.Owner = this.txtOwner.Text;
+                if (_dbToUpdate != null)
+                    db = _dbToUpdate;
+                db.ConnectionString = TxtConnectionString.Text;
+                db.Name = TxtName.Text;
+                db.Provider = CmbProviders.SelectedValue.ToString();
+                db.Owner = TxtOwner.Text;
 
-                DBSchemaReaderHelper schema = new DBSchemaReaderHelper();
+                DbSchemaReaderHelper schema = new DbSchemaReaderHelper();
                 schema.GetSchema(db);
 
                 DatabaseStorageHelper storage = new DatabaseStorageHelper();
-                if (dbToUpdate != null)
+                if (_dbToUpdate != null)
                     storage.Update(db);
                 else
                     storage.Save(db);
 
-                MessageBox.Show("Database Connected and Saved Successfull");
-                this.Close();
+                MdDialog.IsOpen = true;
             }
-            catch (Exception ex) {
+            catch (Exception ex) {                
                  MessageBox.Show(ex.Message);
-            }
-
-            
+            }            
 
         }
 
         private void OnClickClose(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
-
-
         private void OnSelectedProvider(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbProviders.SelectedItem != null)
+            if (CmbProviders.SelectedItem != null)
             {
-                Provider obj = this.cmbProviders.SelectedItem as Provider;
-                this.txtConnectionString.Text = obj.SuggestedConnectionString;
+                Provider obj = CmbProviders.SelectedItem as Provider;
+                if (string.IsNullOrWhiteSpace(TxtConnectionString.Text))
+                    if (obj != null) TxtConnectionString.Text = obj.SuggestedConnectionString;
             }
         }
     }

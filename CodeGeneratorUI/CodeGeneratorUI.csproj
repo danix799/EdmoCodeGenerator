@@ -50,6 +50,10 @@
       <HintPath>..\packages\DotLiquid.2.0.262\lib\net45\DotLiquid.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +99,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LoaderPanel.xaml.cs">
+      <DependentUpon>LoaderPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MessageNoDatabase.xaml.cs">
       <DependentUpon>MessageNoDatabase.xaml</DependentUpon>
     </Compile>
@@ -103,9 +110,16 @@
     </Compile>
     <Compile Include="Validators\NotEmptyValidationRule.cs" />
     <Compile Include="Validators\NotSelectedComboboxItemValidationRule.cs" />
+    <Compile Include="Windows\WinCodeEditor.xaml.cs">
+      <DependentUpon>WinCodeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\WinDatabase.xaml.cs">
       <DependentUpon>WinDatabase.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\LoaderPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MessageNoDatabase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +140,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\WinCodeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\WinDatabase.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

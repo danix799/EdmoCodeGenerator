@@ -26,13 +26,7 @@
                 
             </ResourceDictionary.MergedDictionaries>
             
-            <!--<ContextMenu x:Key="DeleteContextMenu">
-                <MenuItem Header="Delete" Click="OnClickDeleteTemplate">
-                    <MenuItem.Icon>
-                        <md:PackIcon Kind="Delete"></md:PackIcon>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </ContextMenu>-->
+            
             <!-- MahApps Brushes -->
             <SolidColorBrush x:Key="HighlightBrush" Color="{DynamicResource Primary700}"/>
             <SolidColorBrush x:Key="AccentBaseColorBrush" Color="{DynamicResource Primary600}" />
@@ -57,16 +51,10 @@
                 <Setter Property="Margin" Value="0,0,5,0"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
             </Style>
-
             <Style TargetType="TextBlock" x:Key="TextBlockFormLabel">
                 <Setter Property="Margin" Value="0,20,0,0"/>
             </Style>
-
             <SolidColorBrush x:Key="DisabledColor" Color="Gray"></SolidColorBrush>
-
-
-
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

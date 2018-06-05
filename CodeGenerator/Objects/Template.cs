@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Alphaleonis.Win32.Filesystem;
 namespace CodeGenerator.Objects
 {
@@ -10,29 +6,21 @@ namespace CodeGenerator.Objects
     {
         public Guid Id { set; get; }
 
-        public string Path { set; get; }
+        public string Path { private set; get; }
 
-        public Boolean IsDirectory { set; get; }
+        public Boolean IsDirectory { private set; get; }
 
         public Boolean MultipleFiles { set; get; }
 
-        public Template(String Path) {
-            this.Path = Path;
-            this.MultipleFiles = true;
-            this.IsDirectory = CheckIsDirectory(Path);
+        public Template(String path) {
+            Path = path;
+            MultipleFiles = true;
+            IsDirectory = CheckIsDirectory(path);
         
         }
-        public IEnumerable<FileIdBothDirectoryInfo> GetDirectoriesAndFiles() {
-            Boolean IsDirectory = this.CheckIsDirectory(Path);
-            this.Path = Path;
-            if (IsDirectory)
-                return Directory.EnumerateFileIdBothDirectoryInfo(Path, PathFormat.FullPath);
-            else
-                return null;
-        }
-        private Boolean CheckIsDirectory(String Path)
+       private Boolean CheckIsDirectory(String path)
         {
-            var attr = Alphaleonis.Win32.Filesystem.File.GetAttributes(Path);
+            var attr = File.GetAttributes(path);
             return (attr & System.IO.FileAttributes.Directory) == System.IO.FileAttributes.Directory;
         }
 

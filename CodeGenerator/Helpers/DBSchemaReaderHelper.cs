@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DatabaseSchemaReader;
+﻿using DatabaseSchemaReader;
 using DatabaseSchemaReader.DataSchema;
 using CodeGenerator.Objects;
 namespace CodeGenerator.Helpers
 {
-   public class DBSchemaReaderHelper
+   public class DbSchemaReaderHelper
     {
 
        public DatabaseSchema GetSchema(Database db)

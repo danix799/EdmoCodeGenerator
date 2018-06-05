@@ -1,3 +1,7 @@
-﻿delete templates
-add checkbox to templates
-globalization
+﻿add checkbox to templates
+add edit button to templates
+choose templates to generate
+modify templates with avalon
+database spell checker
+refactoring
+remove unnecesary packages

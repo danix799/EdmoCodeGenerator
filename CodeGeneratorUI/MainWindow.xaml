@@ -13,13 +13,29 @@
         WindowStartupLocation="CenterScreen" MinHeight="500" MinWidth="700"
         Title="CodeGenerator">
     <Grid>
+        
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <md:DialogHost Name="MdDialog" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="False" >
+            <md:DialogHost.DialogContent>
+                <StackPanel Margin="16" Orientation="Vertical">
+                    <Label Content="Generate Sucessfull" FontSize="16" />
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="OK" Style="{DynamicResource MaterialDesignFlatButton}" IsCancel="True" Margin="0,8,8,0" Command="md:DialogHost.CloseDialogCommand" CommandParameter="False" />
+                    </StackPanel>
+                </StackPanel>
+            </md:DialogHost.DialogContent>
+        </md:DialogHost>
+
+
         <md:ColorZone Height="50"  Mode="PrimaryMid" Grid.Row="0">
             <Grid>
+                
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Left" Margin="5" Click="OnClickGenerate">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="File" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
@@ -51,7 +67,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" x:Name="GridSectionDatabase">
-                <ListBox x:Name="listDatabases" Button.Click="OnClickListDatabase">
+                <ListBox x:Name="ListDatabases" Button.Click="OnClickListDatabase">
                     <ListBox.Resources>
 
                         <!--Defines a context menu-->
@@ -61,7 +77,7 @@
                                     <md:PackIcon Kind="Pencil"></md:PackIcon>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Delete" Click="OnClickDeleteDatabase">
+                            <MenuItem Header="Remove" Click="OnClickDeleteDatabase">
                                 <MenuItem.Icon>
                                     <md:PackIcon Kind="Delete"></md:PackIcon>
                                 </MenuItem.Icon>
@@ -85,7 +101,7 @@
             <Grid Grid.Column="1">
                 <Border BorderBrush="Gainsboro" BorderThickness="1">
                     <Grid>
-                        <TreeView x:Name="treeSchema">
+                        <TreeView x:Name="TreeSchema">
 
                         </TreeView>
 
@@ -95,10 +111,23 @@
             </Grid>
             <Grid Grid.Column="2" x:Name="GridSectionTemplates">
 
-                <TreeView x:Name="treeTemplates">
-                    
+                <TreeView x:Name="TreeTemplates" MouseRightButtonUp="treeTemplates_MouseRightButtonUp_1" MouseDoubleClick="OnDoubleClickOpenCodeEditor">
+                    <TreeView.Resources>
+                        <ContextMenu x:Key="TreeViewTemplateContextMenu">
+                            <MenuItem Header="Delete" Click="OnClickDeleteTemplate">
+                                <MenuItem.Icon>
+                                    <md:PackIcon Kind="Delete"></md:PackIcon>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="Show in Explorer" Click="OnClickOpenPathTemplate">
+                                <MenuItem.Icon>
+                                    <md:PackIcon Kind="FolderMultiple"></md:PackIcon>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </TreeView.Resources>
                 </TreeView>
-                <Button VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFlatButton}" Click="onClickCreateTemplate">
+                <Button VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFlatButton}" Click="OnClickCreateTemplate">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Folder" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
                         <TextBlock Text="Add Templates"/>

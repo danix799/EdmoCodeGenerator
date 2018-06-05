@@ -10,9 +10,21 @@
         WindowStartupLocation="CenterScreen" Height="400" Width="500"
         Title="DATABASE" MinHeight="400" MinWidth="500">
     <Grid Margin="10">
-    <StackPanel x:Name="spForm">
+        <md:DialogHost Name="MdDialog" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="False" >
+            <md:DialogHost.DialogContent>
+                <StackPanel Margin="16" Orientation="Vertical">
+                    <Label Content="Database Connected and Saved Successfull" FontSize="16" />
+
+                    <StackPanel Orientation="Horizontal">
+                        <Button Content="OK" Style="{DynamicResource MaterialDesignFlatButton}" IsCancel="True" Click="OnClickClose" Margin="0,8,8,0" Command="md:DialogHost.CloseDialogCommand" CommandParameter="False" />
+                    </StackPanel>
+                </StackPanel>
+            </md:DialogHost.DialogContent>
+        </md:DialogHost>
+        
+        <StackPanel x:Name="SpForm">
             <TextBlock Style="{StaticResource TextBlockFormLabel}">Name</TextBlock>
-        <TextBox x:Name="txtName">
+            <TextBox x:Name="TxtName" SpellCheck.IsEnabled="True">
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -22,7 +34,7 @@
                 </TextBox.Text>
             </TextBox>
             <TextBlock Style="{StaticResource TextBlockFormLabel}">Provider</TextBlock>
-            <ComboBox x:Name="cmbProviders" md:HintAssist.Hint="Select a Provider"  SelectionChanged="OnSelectedProvider">
+            <ComboBox  x:Name="CmbProviders" md:HintAssist.Hint="Select a Provider"  SelectionChanged="OnSelectedProvider">
                 <ComboBox.SelectedItem>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -32,14 +44,14 @@
                 </ComboBox.SelectedItem>
             </ComboBox>
             <TextBlock Style="{StaticResource TextBlockFormLabel}">Owner (For MySql databases)</TextBlock>
-            <TextBox x:Name="txtOwner" >
+            <TextBox x:Name="TxtOwner" SpellCheck.IsEnabled="True" >
                 
             </TextBox>
             
         <TextBlock Style="{StaticResource TextBlockFormLabel}">ConnectionString</TextBlock>
-            <TextBox x:Name="txtConnectionString" >
+            <TextBox x:Name="TxtConnectionString" SpellCheck.IsEnabled="True">
                 <TextBox.Text>
-                    <Binding Path="txtConnectionString.Name" UpdateSourceTrigger="PropertyChanged">
+                    <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
                             <validators:NotEmptyValidationRule/>
                         </Binding.ValidationRules>
