@@ -22,6 +22,7 @@ using ContextMenu = System.Windows.Controls.ContextMenu;
 using Directory = Alphaleonis.Win32.Filesystem.Directory;
 using DirectoryInfo = Alphaleonis.Win32.Filesystem.DirectoryInfo;
 using File = Alphaleonis.Win32.Filesystem.File;
+using FileInfo = Alphaleonis.Win32.Filesystem.FileInfo;
 using MessageBox = System.Windows.MessageBox;
 using Orientation = System.Windows.Controls.Orientation;
 using Template = CodeGenerator.Objects.Template;
@@ -179,6 +180,20 @@ namespace CodeGeneratorUI
 
         }
 
+        private void DeleteFolderContent(String Path)
+        {
+            DirectoryInfo di = new DirectoryInfo(Path);
+
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+            foreach (DirectoryInfo dir in di.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+        }
+        
         private void OnClickGenerate(object sender, RoutedEventArgs e)
         {
             try
@@ -190,25 +205,31 @@ namespace CodeGeneratorUI
                 DatabaseSchema schema = _schemaReader.GetSchema(db);
                 String outputPath = @"C:\Users\user\Desktop\output"; //TODO: generate for all output paths
 
+                DeleteFolderContent(outputPath);
                 CopyDirectory(template.Path, outputPath);
                 //System.Threading.Thread.Sleep(10);
                 var insides = Directory.GetFiles(outputPath, "*.*",
                     SearchOption.AllDirectories);
                 foreach (String path in insides)
                 {
-                    String fileContents = File.ReadAllText(path);
-                    // start: single file
+                    String fileContents = File.ReadAllText(path, System.Text.Encoding.Default);
+                    
                     var anom = from x in schema.Tables
-                        select new
-                        {
-                            Name = x.Name,
-                            HasAutoNumberColumn = x.HasAutoNumberColumn,
-                            Columns = from y in x.Columns
-                                select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber }
-                        };
-                    DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
-                    String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
-                    File.WriteAllText(path, compiledOutput);
+                               select new
+                               {
+                                   Name = x.Name,
+                                   HasAutoNumberColumn = x.HasAutoNumberColumn,
+                                   Columns = from y in x.Columns
+                                             select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber }
+                               };
+
+                    
+
+                    
+                    // start: single file
+                    //DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
+                    //String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
+                    //File.WriteAllText(path, compiledOutput);
                     // end: single file
 
                     //start: multiple file
@@ -218,8 +239,10 @@ namespace CodeGeneratorUI
                         String compiledOutputMultiple = templateLiquidMultiple.Render(Hash.FromAnonymousObject(new { table = table }, true));
                         DotLiquid.Template templateLiquidFileName = DotLiquid.Template.Parse(path); // Parses and compiles the template                
                         String compiledFileName = templateLiquidFileName.Render(Hash.FromAnonymousObject(new { table = table }, true));
+                        compiledOutputMultiple = compiledOutputMultiple.Replace(@"'}'}'", "}}");
+                        compiledOutputMultiple = compiledOutputMultiple.Replace(@"'{'{'", "{{");
                         //File.Create(CompiledFileName);
-                        File.WriteAllText(compiledFileName, compiledOutputMultiple);
+                        File.WriteAllText(compiledFileName, compiledOutputMultiple, System.Text.Encoding.Default);
                     }
                     //end: multiple file
                 }
@@ -316,8 +339,7 @@ namespace CodeGeneratorUI
                 var directoryInfo = selectedTreeViewItem.Tag as DirectoryInfo;
                 if (directoryInfo != null)
                 {
-                    String parentPath = (directoryInfo.Parent.FullName);
-                    Process.Start(parentPath);
+                    Process.Start(directoryInfo.FullName);
                 }
             }
         } 
