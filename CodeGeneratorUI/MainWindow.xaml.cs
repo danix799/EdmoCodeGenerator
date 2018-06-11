@@ -227,9 +227,9 @@ namespace CodeGeneratorUI
 
                     
                     // start: single file
-                    //DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
-                    //String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
-                    //File.WriteAllText(path, compiledOutput);
+                    DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
+                    String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
+                    File.WriteAllText(path, compiledOutput);
                     // end: single file
 
                     //start: multiple file
