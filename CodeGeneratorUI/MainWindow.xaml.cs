@@ -219,6 +219,26 @@ namespace CodeGeneratorUI
                                {
                                    Name = x.Name,
                                    HasAutoNumberColumn = x.HasAutoNumberColumn,
+                                   PrimaryKeyCount = x.PrimaryKey.Columns.Count,
+                                   PrimaryKeyFirstName = x.PrimaryKey.Columns.First(),
+                                   PrimaryKeyColumns = from y in x.Columns
+                                                       where y.IsPrimaryKey
+                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
+                                   AutoNumberColumns = from y in x.Columns
+                                                       where y.IsAutoNumber
+                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
+                                   ForeignKeyColumns = from y in x.Columns
+                                                       where y.IsForeignKey
+                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
+                                   NonAutoNumberColumns = from y in x.Columns
+                                                          where !y.IsAutoNumber
+                                                          select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
+                                   NonPrimaryKeyColumns = from y in x.Columns
+                                                          where !y.IsPrimaryKey
+                                                          select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
+                                   NonForeignKeyColumns = from y in x.Columns
+                                                       where !y.IsForeignKey
+                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
                                    Columns = from y in x.Columns
                                              select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber }
                                };
@@ -227,9 +247,11 @@ namespace CodeGeneratorUI
 
                     
                     // start: single file
-                    DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
-                    String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
-                    File.WriteAllText(path, compiledOutput);
+                    //DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
+                    //String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
+                    //compiledOutput = compiledOutput.Replace(@"'}'}'", "}}");
+                    //compiledOutput = compiledOutput.Replace(@"'{'{'", "{{");
+                    //File.WriteAllText(path, compiledOutput);
                     // end: single file
 
                     //start: multiple file
