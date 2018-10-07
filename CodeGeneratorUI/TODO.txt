@@ -4,4 +4,13 @@ database spell checker
 remove unnecesary packages
 
 Refactorizar metodo de generacion de codigo
-Translations
+Mostrar solo el nombre en el las rutas del conjunto de plantillas
+Actualizar solo el archivo modificado o eliminado del conjunto de plantillas
+Acerca de
+Refrescar objetos (base de datos, templates)
+Configuraciones
+	-Lenguaje
+	-Temas
+Wizard de ayuda
+
+Instalador

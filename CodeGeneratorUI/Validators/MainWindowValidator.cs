@@ -25,12 +25,12 @@ namespace CodeGeneratorUI.Validators
         private void _Validate_Least_One_Database()
         {
             if (window.AddedDatabases == 0)
-                throw new ValidationException("Debe agregar al menos una base de datos y un conjunto de plantillas para poder continuar");
+                throw new ValidationException(Properties.Resources.you_must_add_at_least_one_database_and_one_set_of_templates_in_order_to_continue);
         }
         private void _Validate_Selected_Database()
         {
             if (!window.HasSelectedDatabase)
-                throw new ValidationException("Debe seleccionar una base de datos");
+                throw new ValidationException(Properties.Resources.you_must_select_a_database);
         }
     }
 }

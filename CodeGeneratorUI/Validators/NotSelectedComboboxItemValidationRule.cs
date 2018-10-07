@@ -8,7 +8,7 @@ namespace CodeGeneratorUI.Validators
         public override ValidationResult Validate(object value, CultureInfo cultureInfo)
         {
             return string.IsNullOrWhiteSpace((value ?? "").ToString())
-                ? new ValidationResult(false, "You must select an option.")
+                ? new ValidationResult(false, Properties.Resources.you_must_select_an_option)
                 : ValidationResult.ValidResult;
         }
     }

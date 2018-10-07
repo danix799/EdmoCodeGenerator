@@ -110,7 +110,7 @@ namespace CodeGeneratorUI
         {
             TreeViewItem tviTables = new TreeViewItem
             {
-                Header = "Tables",
+                Header = Properties.Resources.tables,
                 Tag = Schema.Tables
             };
             TreeSchema.Items.Add(tviTables);

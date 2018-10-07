@@ -4,6 +4,7 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+                   xmlns:p="clr-namespace:CodeGeneratorUI.Properties"
         Background="{DynamicResource MaterialDesignPaper}"
                    Icon="./img/app_icon.png"
         TextElement.FontWeight="Medium"
@@ -11,7 +12,7 @@
         GlowBrush="{DynamicResource AccentColorBrush}"
         BorderThickness="1"        
         WindowStartupLocation="CenterScreen" MinHeight="500" MinWidth="700"
-        Title="CodeGenerator">
+        Title="{x:Static p:Resources.code_generator}">
     <Grid>
         
         
@@ -39,11 +40,11 @@
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" HorizontalAlignment="Left" Margin="5" Click="OnClickGenerate">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="File" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
-                        <TextBlock Text="Generate!"/>
+                        <TextBlock Text="{x:Static p:Resources.generate}"/>
                     </StackPanel>
                 </Button>
                 <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right"  >
-                    <md:PackIcon Kind="GithubCircle"   Foreground="White" Height="30" Width="30" ToolTip="Go to Github" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
+                    <md:PackIcon Kind="GithubCircle"   Foreground="White" Height="30" Width="30" ToolTip="{x:Static p:Resources.go_to_github}" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
                 </StackPanel>
 
             </Grid>
@@ -54,10 +55,10 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="White">Databases</TextBlock>
-            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Foreground="White">Schema</TextBlock>
-            <TextBlock Grid.Column="2" HorizontalAlignment="Center" Foreground="White">Templates</TextBlock>
-         </Grid>
+            <TextBlock Grid.Column="0" HorizontalAlignment="Center" Foreground="White" Text="{x:Static p:Resources.databases}"/>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Foreground="White" Text="{x:Static p:Resources.schema}"/>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Center" Foreground="White" Text="{x:Static p:Resources.templates}"/>
+        </Grid>
         <Grid Grid.Row="2">           
 
             <Grid.ColumnDefinitions>
@@ -72,12 +73,12 @@
 
                         <!--Defines a context menu-->
                         <ContextMenu x:Key="CrudContextMenu">
-                            <MenuItem Header="Modify" Click="OnClickModifyDatabase">
+                            <MenuItem Header="{x:Static p:Resources.modify}" Click="OnClickModifyDatabase">
                                 <MenuItem.Icon>
                                     <md:PackIcon Kind="Pencil"></md:PackIcon>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Remove" Click="OnClickDeleteDatabase">
+                            <MenuItem Header="{x:Static p:Resources.remove}" Click="OnClickDeleteDatabase">
                                 <MenuItem.Icon>
                                     <md:PackIcon Kind="Delete"></md:PackIcon>
                                 </MenuItem.Icon>
@@ -94,7 +95,7 @@
                 <Button VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFlatButton}" Click="OnClickCreateDatabase">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Database" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
-                        <TextBlock Text="Add Database"/>
+                        <TextBlock Text="{x:Static p:Resources.add_database}"/>
                     </StackPanel>
                 </Button>
             </Grid>
@@ -114,12 +115,12 @@
                 <TreeView x:Name="TreeTemplates" MouseRightButtonUp="treeTemplates_MouseRightButtonUp_1" MouseDoubleClick="OnDoubleClickOpenCodeEditor" Margin="0,0,0,30">
                     <TreeView.Resources>
                         <ContextMenu x:Key="TreeViewTemplateContextMenu">
-                            <MenuItem Header="Delete" Click="OnClickDeleteTemplate">
+                            <MenuItem Header="{x:Static p:Resources.delete}" Click="OnClickDeleteTemplate">
                                 <MenuItem.Icon>
                                     <md:PackIcon Kind="Delete"></md:PackIcon>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem Header="Show in Explorer" Click="OnClickOpenPathTemplate">
+                            <MenuItem Header="{x:Static p:Resources.show_in_explorer}" Click="OnClickOpenPathTemplate">
                                 <MenuItem.Icon>
                                     <md:PackIcon Kind="FolderMultiple"></md:PackIcon>
                                 </MenuItem.Icon>
@@ -130,7 +131,7 @@
                 <Button VerticalAlignment="Bottom" Style="{StaticResource MaterialDesignFlatButton}" Click="OnClickCreateTemplate">
                     <StackPanel Orientation="Horizontal">
                         <md:PackIcon Kind="Folder" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
-                        <TextBlock Text="Add Templates"/>
+                        <TextBlock Text="{x:Static p:Resources.add_template}"/>
                     </StackPanel>
                 </Button>
             </Grid>

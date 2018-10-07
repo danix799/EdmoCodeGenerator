@@ -7,7 +7,7 @@ namespace CodeGeneratorUI.Validators
     {
        public override ValidationResult Validate(object value, CultureInfo cultureInfo){
 			return string.IsNullOrWhiteSpace((value ?? "").ToString())
-				? new ValidationResult(false, "Field is required.")
+				? new ValidationResult(false, Properties.Resources.field_is_required)
 				: ValidationResult.ValidResult;
 		}
     }

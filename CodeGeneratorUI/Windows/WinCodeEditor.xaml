@@ -5,30 +5,31 @@
                    GlowBrush="{DynamicResource AccentColorBrush}"
                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                    BorderThickness="1"
+                   xmlns:p="clr-namespace:CodeGeneratorUI.Properties"
         Icon="../img/app_icon.png"
        WindowStartupLocation="CenterScreen" Height="400" Width="500"
-        Title="CODE EDITOR" MinHeight="400" MinWidth="500">
+        Title="{x:Static p:Resources.code_editor}" MinHeight="400" MinWidth="500">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
-                <Button ToolTip="Open" Click="OnClickSee">
+                <Button ToolTip="{x:Static p:Resources.open}" Click="OnClickSee">
                     <materialDesign:PackIcon Kind="Eye" />
                 </Button>
-                <Button ToolTip="Save" Click="OnClickSave">
+                <Button ToolTip="{x:Static p:Resources.save}" Click="OnClickSave">
                     <materialDesign:PackIcon Kind="ContentSave" />
                 </Button>
                 <Separator />
-                <Button Command="Cut" ToolTip="Cut" ToolBar.OverflowMode="AsNeeded">
+                <Button Command="Cut" ToolTip="{x:Static p:Resources.cut}" ToolBar.OverflowMode="AsNeeded">
                     <materialDesign:PackIcon Kind="ContentCut" />
                 </Button>
-                <Button Command="Copy" ToolTip="Copy that stuff" ToolBar.OverflowMode="AsNeeded">
+                <Button Command="Copy" ToolTip="{x:Static p:Resources.copy_that_stuff}" ToolBar.OverflowMode="AsNeeded">
                     <materialDesign:PackIcon Kind="ContentCopy" />
                 </Button>
-                <Button Command="Paste" ToolTip="Paste some stuff" ToolBar.OverflowMode="AsNeeded">
+                <Button Command="Paste" ToolTip="{x:Static p:Resources.paste_some_stuff}" ToolBar.OverflowMode="AsNeeded">
                     <materialDesign:PackIcon Kind="ContentPaste" />
                 </Button>
                 <Separator />
-                <Button ToolTip="Move to recycle bin" Click="OnClickDelete">
+                <Button ToolTip="{x:Static p:Resources.move_to_recycle_bin}" Click="OnClickDelete">
                     <materialDesign:PackIcon Kind="Delete" />
                 </Button>        
             </ToolBar>

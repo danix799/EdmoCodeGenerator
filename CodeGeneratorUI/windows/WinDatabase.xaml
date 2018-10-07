@@ -4,26 +4,27 @@
                    GlowBrush="{DynamicResource AccentColorBrush}"
                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                    BorderThickness="1"
+                   xmlns:p="clr-namespace:CodeGeneratorUI.Properties"
                    xmlns:validators="clr-namespace:CodeGeneratorUI.Validators"
                    Icon="../img/app_icon.png"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         WindowStartupLocation="CenterScreen" Height="400" Width="500"
-        Title="DATABASE" MinHeight="400" MinWidth="500">
+        Title="{x:Static p:Resources.database}" MinHeight="400" MinWidth="500">
     <Grid Margin="10">
         <md:DialogHost Name="MdDialog" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="False" >
             <md:DialogHost.DialogContent>
                 <StackPanel Margin="16" Orientation="Vertical">
-                    <Label Content="Database Connected and Saved Successfull" FontSize="16" />
+                    <Label Content="{x:Static p:Resources.database_connected_and_saved_successfull}" FontSize="16" />
 
                     <StackPanel Orientation="Horizontal">
-                        <Button Content="OK" Style="{DynamicResource MaterialDesignFlatButton}" IsCancel="True" Click="OnClickClose" Margin="0,8,8,0" Command="md:DialogHost.CloseDialogCommand" CommandParameter="False" />
+                        <Button Content="{x:Static p:Resources.ok}" Style="{DynamicResource MaterialDesignFlatButton}" IsCancel="True" Click="OnClickClose" Margin="0,8,8,0" Command="md:DialogHost.CloseDialogCommand" CommandParameter="False" />
                     </StackPanel>
                 </StackPanel>
             </md:DialogHost.DialogContent>
         </md:DialogHost>
         
         <StackPanel x:Name="SpForm">
-            <TextBlock Style="{StaticResource TextBlockFormLabel}">Name</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.name}"/>
             <TextBox x:Name="TxtName" SpellCheck.IsEnabled="True">
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
@@ -33,8 +34,8 @@
                     </Binding>
                 </TextBox.Text>
             </TextBox>
-            <TextBlock Style="{StaticResource TextBlockFormLabel}">Provider</TextBlock>
-            <ComboBox  x:Name="CmbProviders" md:HintAssist.Hint="Select a Provider"  SelectionChanged="OnSelectedProvider">
+            <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.provider}"/>
+            <ComboBox  x:Name="CmbProviders" md:HintAssist.Hint="{x:Static p:Resources.select_a_provider}"  SelectionChanged="OnSelectedProvider">
                 <ComboBox.SelectedItem>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -43,12 +44,12 @@
                     </Binding>
                 </ComboBox.SelectedItem>
             </ComboBox>
-            <TextBlock Style="{StaticResource TextBlockFormLabel}">Owner (For MySql databases)</TextBlock>
+            <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.owner_for_mysql_databases}"/>
             <TextBox x:Name="TxtOwner" SpellCheck.IsEnabled="True" >
                 
             </TextBox>
-            
-        <TextBlock Style="{StaticResource TextBlockFormLabel}">ConnectionString</TextBlock>
+
+            <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.connectionstring}"/>
             <TextBox x:Name="TxtConnectionString" SpellCheck.IsEnabled="True">
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
@@ -64,13 +65,13 @@
             <Button Click="OnClickSaveDatabase" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">
                     <md:PackIcon Kind="ContentSave" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
-                    <TextBlock Text="Save Database"/>
+                    <TextBlock Text="{x:Static p:Resources.save}"/>
                 </StackPanel>
             </Button>
             <Button Click="OnClickClose">
                 <StackPanel Orientation="Horizontal">
                     <md:PackIcon Kind="Close" Style="{StaticResource MaterialDesignButtonInlineIcon}"></md:PackIcon>
-                    <TextBlock Text="Cancel"/>
+                    <TextBlock Text="{x:Static p:Resources.cancel}"/>
                 </StackPanel>
             </Button>
         </StackPanel>

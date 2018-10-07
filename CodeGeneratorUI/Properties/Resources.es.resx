@@ -118,123 +118,123 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="add_database" xml:space="preserve">
-    <value>Add database</value>
+    <value>Agregar base de datos</value>
   </data>
   <data name="add_template" xml:space="preserve">
-    <value>Add template</value>
+    <value>Agregar plantilla</value>
   </data>
   <data name="cancel" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Cancelar</value>
   </data>
   <data name="click_on_the_button_below_to_add_one" xml:space="preserve">
-    <value>Click on the button below to add one</value>
+    <value>Click en el botón de abajo para agregar alguna</value>
   </data>
   <data name="code_editor" xml:space="preserve">
-    <value>Code Editor</value>
+    <value>Editor de código</value>
   </data>
   <data name="code_generator" xml:space="preserve">
     <value>Code Generator</value>
   </data>
   <data name="connectionstring" xml:space="preserve">
-    <value>ConnectionString</value>
+    <value>Cadena de conexión</value>
   </data>
   <data name="copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Copiar</value>
   </data>
   <data name="copy_that_stuff" xml:space="preserve">
-    <value>Copy that stuff</value>
+    <value>Copiar</value>
   </data>
   <data name="cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Cortar</value>
   </data>
   <data name="database" xml:space="preserve">
-    <value>Database</value>
+    <value>Base de datos</value>
   </data>
   <data name="databases" xml:space="preserve">
-    <value>Databases</value>
+    <value>Base de datos</value>
   </data>
   <data name="database_connected_and_saved_successfull" xml:space="preserve">
-    <value>Database Connected and Saved Successfull</value>
+    <value>Base de datos conectada correctamente</value>
   </data>
   <data name="delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Eliminar</value>
   </data>
   <data name="file_deleted_successfull" xml:space="preserve">
-    <value>File deleted successfull</value>
+    <value>Archivo eliminado correctamente</value>
   </data>
   <data name="file_saved_successfull" xml:space="preserve">
-    <value>File saved successfull</value>
+    <value>Archivo guardado correctamente</value>
   </data>
   <data name="generate" xml:space="preserve">
-    <value>Generate!</value>
+    <value>Generar!</value>
   </data>
   <data name="go_to_github" xml:space="preserve">
-    <value>Go to Github</value>
+    <value>Ir a github</value>
   </data>
   <data name="modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Modificar</value>
   </data>
   <data name="move_to_recycle_bin" xml:space="preserve">
-    <value>Move to recycle bin</value>
+    <value>Mover a la papelera de reciclaje</value>
   </data>
   <data name="name" xml:space="preserve">
-    <value>Name</value>
+    <value>Nombre</value>
   </data>
   <data name="no_databases_to_show" xml:space="preserve">
-    <value>No databases to show</value>
+    <value>Sin base de datos</value>
   </data>
   <data name="no_templates_to_show" xml:space="preserve">
-    <value>No templates to show</value>
+    <value>Sin plantillas</value>
   </data>
   <data name="ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>Aceptar</value>
   </data>
   <data name="open" xml:space="preserve">
-    <value>Open</value>
+    <value>Abrir</value>
   </data>
   <data name="owner_for_mysql_databases" xml:space="preserve">
-    <value>Owner (For MySql databases)</value>
+    <value>Propietario (Para base de datos mysql)</value>
   </data>
   <data name="paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Pegar</value>
   </data>
   <data name="paste_some_stuff" xml:space="preserve">
-    <value>Paste some stuff</value>
+    <value>Pegar</value>
   </data>
   <data name="provider" xml:space="preserve">
-    <value>Provider</value>
+    <value>Proveedor</value>
   </data>
   <data name="remove" xml:space="preserve">
-    <value>Remove</value>
+    <value>Remover</value>
   </data>
   <data name="save" xml:space="preserve">
-    <value>Save</value>
+    <value>Guardar</value>
   </data>
   <data name="schema" xml:space="preserve">
-    <value>Schema</value>
+    <value>Esquema</value>
   </data>
   <data name="show_in_explorer" xml:space="preserve">
-    <value>Show in explorer</value>
+    <value>Mostrar en el explorador</value>
   </data>
   <data name="templates" xml:space="preserve">
-    <value>Templates</value>
+    <value>Plantillas</value>
   </data>
   <data name="you_must_add_at_least_one_database_and_one_set_of_templates_in_order_to_continue" xml:space="preserve">
-    <value>You must add at least one database and one set of templates in order to continue.</value>
+    <value>Debes agregar al menos una base de datos para continuar</value>
   </data>
   <data name="you_must_select_a_database" xml:space="preserve">
-    <value>You must select a database</value>
+    <value>Debes seleccionar una base de datos</value>
   </data>
   <data name="field_is_required" xml:space="preserve">
-    <value>Field is required</value>
+    <value>Campo requerido</value>
   </data>
   <data name="select_a_provider" xml:space="preserve">
-    <value>Select a provider</value>
+    <value>Selecciona un proveedor</value>
   </data>
   <data name="tables" xml:space="preserve">
-    <value>Tables</value>
+    <value>Tablas</value>
   </data>
   <data name="you_must_select_an_option" xml:space="preserve">
-    <value>You must select an option</value>
+    <value>Debes seleccionar una opción</value>
   </data>
 </root>

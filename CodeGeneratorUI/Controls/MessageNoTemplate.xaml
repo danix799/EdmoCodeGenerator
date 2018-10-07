@@ -4,13 +4,14 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:p="clr-namespace:CodeGeneratorUI.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,0,50">
         <md:PackIcon Kind="Folder" Foreground="{StaticResource DisabledColor}" HorizontalAlignment="Center" Height="50" Width="50">
 
         </md:PackIcon>
-        <TextBlock Foreground="{StaticResource DisabledColor}" HorizontalAlignment="Center">No templates to show</TextBlock>
-        <TextBlock Foreground="{StaticResource DisabledColor}" HorizontalAlignment="Center">Click on the button below to add one</TextBlock>
+        <TextBlock Foreground="{StaticResource DisabledColor}" HorizontalAlignment="Center" Text="{x:Static p:Resources.no_templates_to_show}"/>
+        <TextBlock Foreground="{StaticResource DisabledColor}" HorizontalAlignment="Center" Text="{x:Static p:Resources.click_on_the_button_below_to_add_one}"/>
     </StackPanel>
 </UserControl>

@@ -3,6 +3,7 @@ using CodeGenerator.Objects;
 using Alphaleonis.Win32.Filesystem;
 using System.Diagnostics;
 using System.Windows;
+using Microsoft.VisualBasic.FileIO;
 
 namespace CodeGeneratorUI.Windows
 {
@@ -21,8 +22,6 @@ namespace CodeGeneratorUI.Windows
             this.textEditor.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.HighlightingManager.Instance.GetDefinitionByExtension(FileInformation.Extension);
         }
 
-
-
         private void OnClickSee(object sender, System.Windows.RoutedEventArgs e)
         {
             Process.Start(SourceTemplate.Path);
@@ -31,14 +30,14 @@ namespace CodeGeneratorUI.Windows
         private void OnClickSave(object sender, System.Windows.RoutedEventArgs e)
         {
             File.WriteAllText(SourceTemplate.Path, this.textEditor.Text);
-            MessageBox.Show("File saved successfull");
+            MessageBox.Show(Properties.Resources.file_saved_successfull);
             this.Close();
         }
 
         private void OnClickDelete(object sender, System.Windows.RoutedEventArgs e)
         {
-            File.Delete(SourceTemplate.Path);
-            MessageBox.Show("File deleted successfull");
+            FileSystem.DeleteFile(SourceTemplate.Path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            MessageBox.Show(Properties.Resources.file_deleted_successfull);
             this.Close();
         }
     }

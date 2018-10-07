@@ -5,8 +5,11 @@ namespace CodeGeneratorUI
 {
         public partial class App
         {
+        
             public App() {
-                new DatabaseStorageHelper();
+            System.Threading.Thread.CurrentThread.CurrentUICulture =
+            new System.Globalization.CultureInfo("es");
+            new DatabaseStorageHelper();
                 new TemplateStorageHelper();
                 GC.Collect();
             }
