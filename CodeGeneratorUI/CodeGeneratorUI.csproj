@@ -54,6 +54,9 @@
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -75,6 +78,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
@@ -108,6 +112,9 @@
     <Compile Include="Controls\MessageNoTemplate.xaml.cs">
       <DependentUpon>MessageNoTemplate.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AppConfigHelper.cs" />
+    <Compile Include="Helpers\ValidationException.cs" />
+    <Compile Include="Validators\MainWindowValidator.cs" />
     <Compile Include="Validators\NotEmptyValidationRule.cs" />
     <Compile Include="Validators\NotSelectedComboboxItemValidationRule.cs" />
     <Compile Include="Windows\WinCodeEditor.xaml.cs">

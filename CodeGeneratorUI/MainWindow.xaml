@@ -67,7 +67,7 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" x:Name="GridSectionDatabase">
-                <ListBox x:Name="ListDatabases" Button.Click="OnClickListDatabase">
+                <ListBox x:Name="ListDatabases" Button.Click="OnClickListDatabase" Margin="0,0,0,30">
                     <ListBox.Resources>
 
                         <!--Defines a context menu-->
@@ -111,7 +111,7 @@
             </Grid>
             <Grid Grid.Column="2" x:Name="GridSectionTemplates">
 
-                <TreeView x:Name="TreeTemplates" MouseRightButtonUp="treeTemplates_MouseRightButtonUp_1" MouseDoubleClick="OnDoubleClickOpenCodeEditor">
+                <TreeView x:Name="TreeTemplates" MouseRightButtonUp="treeTemplates_MouseRightButtonUp_1" MouseDoubleClick="OnDoubleClickOpenCodeEditor" Margin="0,0,0,30">
                     <TreeView.Resources>
                         <ContextMenu x:Key="TreeViewTemplateContextMenu">
                             <MenuItem Header="Delete" Click="OnClickDeleteTemplate">
