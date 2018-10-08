@@ -1,7 +1,6 @@
 ﻿add checkbox to templates
 choose templates to generate
 database spell checker
-remove unnecesary packages
 
 Refactorizar metodo de generacion de codigo
 Actualizar solo el archivo modificado o eliminado del conjunto de plantillas

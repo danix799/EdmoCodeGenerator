@@ -261,8 +261,8 @@ namespace CodeGeneratorUI
                         String compiledOutputMultiple = templateLiquidMultiple.Render(Hash.FromAnonymousObject(new { table = table }, true));
                         DotLiquid.Template templateLiquidFileName = DotLiquid.Template.Parse(path); // Parses and compiles the template                
                         String compiledFileName = templateLiquidFileName.Render(Hash.FromAnonymousObject(new { table = table }, true));
-                        compiledOutputMultiple = compiledOutputMultiple.Replace(AppConfigHelper.GetRightTagUnprocessing(), "}}");
-                        compiledOutputMultiple = compiledOutputMultiple.Replace(AppConfigHelper.GetLeftTagUnprocessing(), "{{");
+                        compiledOutputMultiple = compiledOutputMultiple.Replace(CodeGeneratorUI.Helpers.AppConfigHelper.GetRightTagUnprocessing(), "}}");
+                        compiledOutputMultiple = compiledOutputMultiple.Replace(CodeGeneratorUI.Helpers.AppConfigHelper.GetLeftTagUnprocessing(), "{{");
                         //File.Create(CompiledFileName);
                         File.WriteAllText(compiledFileName, compiledOutputMultiple, System.Text.Encoding.Default);
                     }
@@ -289,7 +289,7 @@ namespace CodeGeneratorUI
 
         private void OnClickGotoGit(object sender, MouseButtonEventArgs e)
         {
-            Process.Start(AppConfigHelper.GetRepositoryUrl());
+            Process.Start(CodeGeneratorUI.Helpers.AppConfigHelper.GetRepositoryUrl());
         }
 
         private void OnClickModifyDatabase(object sender, RoutedEventArgs e)
