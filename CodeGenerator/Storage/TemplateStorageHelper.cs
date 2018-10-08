@@ -4,12 +4,13 @@ using System.Linq;
 using Alphaleonis.Win32.Filesystem;
 using CodeGenerator.Objects;
 using Newtonsoft.Json;
+using CodeGenerator.Helpers;
 
 namespace CodeGenerator.Storage
 {
     public class TemplateStorageHelper : StorageHelper
     {
-        private string StorageFile = "templates.txt";
+        private string StorageFile { get { return AppConfigHelper.GetTemplatesStorageFile(); } }
         public TemplateStorageHelper()
         {
             if (!File.Exists(StorageFile))

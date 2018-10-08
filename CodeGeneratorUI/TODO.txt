@@ -4,13 +4,13 @@ database spell checker
 remove unnecesary packages
 
 Refactorizar metodo de generacion de codigo
-Mostrar solo el nombre en el las rutas del conjunto de plantillas
 Actualizar solo el archivo modificado o eliminado del conjunto de plantillas
 Acerca de
 Refrescar objetos (base de datos, templates)
-Configuraciones
-	-Lenguaje
-	-Temas
-Wizard de ayuda
+Configuraciones (Lenguaje, temas, archivos de plantillas y base de datos)
+Wizard de ayuda de uso
+Wizard de ayuda de syntaxis
 
 Instalador
+Obfuscator
+Pruebas ubuntu

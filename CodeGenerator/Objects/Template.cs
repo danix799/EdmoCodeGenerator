@@ -25,7 +25,10 @@ namespace CodeGenerator.Objects
             Path = path;
             MultipleFiles = true;
             if (ExistsInFileSystem)
-                IsDirectory = CheckIsDirectory(path);
+            {
+                IsDirectory = CheckIsDirectory(path);                
+            }
+                
 
         }
         public static List<Template> PathsToTemplates(String[] Paths)
@@ -73,9 +76,16 @@ namespace CodeGenerator.Objects
 
         private string _ComputeName()
         {
+            String Result = "";
             if (!ExistsInFileSystem)
-                return this.Path + " (Not Found)";
-            return this.Path;
+            {
+                Result =  "Not found file";
+            }
+            if (_ComputeFileSystemInfo() is DirectoryInfo)
+                Result = (_ComputeFileSystemInfo() as DirectoryInfo).Name;
+            if (_ComputeFileSystemInfo() is FileInfo)
+                Result =(_ComputeFileSystemInfo() as FileInfo).Name;
+            return Result;
         }
 
 

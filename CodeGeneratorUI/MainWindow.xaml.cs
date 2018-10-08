@@ -181,6 +181,7 @@ namespace CodeGeneratorUI
         private void DeleteFolderContent(String Path)
         {
             DirectoryInfo di = new DirectoryInfo(Path);
+            if (!di.Exists) return;
 
             foreach (FileInfo file in di.GetFiles())
             {
@@ -202,7 +203,7 @@ namespace CodeGeneratorUI
                 Database db = (button.Tag as Database);
                 Template template = _savedTemplates.GetAll().First();
                 DatabaseSchema schema = _schemaReader.GetSchema(db);
-                String outputPath = @"C:\Users\user\Desktop\output"; //TODO: generate for all output paths
+                String outputPath = @"C:\Users\user-pc\Desktop\output"; //TODO: generate for all output paths
 
                 DeleteFolderContent(outputPath);
                 CopyDirectory(template.Path, outputPath);

@@ -4,14 +4,15 @@ using System.Linq;
 using Alphaleonis.Win32.Filesystem;
 using CodeGenerator.Objects;
 using Newtonsoft.Json;
+using CodeGenerator.Helpers;
 
 namespace CodeGenerator.Storage
 {
     public class DatabaseStorageHelper : StorageHelper
     {
-        private string StorageFile = "databases.txt";
+        private string StorageFile { get { return AppConfigHelper.GetDatabaseStorageFile(); } }
         public DatabaseStorageHelper()
-        {
+        {            
             if (!File.Exists(StorageFile))
                 File.AppendText(StorageFile, System.Text.Encoding.UTF8);
 
