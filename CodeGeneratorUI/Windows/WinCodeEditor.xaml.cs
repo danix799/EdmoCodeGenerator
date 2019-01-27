@@ -7,6 +7,7 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace CodeGeneratorUI.Windows
 {
+
     /// <summary>
     /// Lógica de interacción para WinCodeEditor.xaml
     /// </summary>

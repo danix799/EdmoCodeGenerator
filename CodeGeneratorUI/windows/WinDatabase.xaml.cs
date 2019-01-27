@@ -95,6 +95,7 @@ namespace CodeGeneratorUI.windows
             if (CmbProviders.SelectedItem != null)
             {
                 Provider obj = CmbProviders.SelectedItem as Provider;
+                txtSuggestedConnectionString.Text = obj.SuggestedConnectionString;
                 if (string.IsNullOrWhiteSpace(TxtConnectionString.Text))
                     if (obj != null) TxtConnectionString.Text = obj.SuggestedConnectionString;
             }

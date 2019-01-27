@@ -1,14 +1,13 @@
 ﻿add checkbox to templates
 choose templates to generate
 database spell checker
-
-Refactorizar metodo de generacion de codigo
-Actualizar solo el archivo modificado o eliminado del conjunto de plantillas
-Acerca de
+Memory database
+Acerca de [PROGRESS]
+Configuraciones (Lenguaje, temas, archivos de plantillas y base de datos) [PROGRESS]
+Wizard de ayuda de uso [PROGRESS]
+Wizard de ayuda de syntaxis [PROGRESS]
 Refrescar objetos (base de datos, templates)
-Configuraciones (Lenguaje, temas, archivos de plantillas y base de datos)
-Wizard de ayuda de uso
-Wizard de ayuda de syntaxis
+propiedades dinamicas para cadena de conexion
 
 Instalador
 Obfuscator

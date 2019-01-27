@@ -2,10 +2,17 @@
 using Alphaleonis.Win32.Filesystem;
 using System.Collections.Generic;
 
+
 namespace CodeGenerator.Objects
 {
     public class Template
     {
+        public event System.IO.FileSystemEventHandler Changed;
+        public event System.IO.FileSystemEventHandler Created;
+        public event System.IO.FileSystemEventHandler Deleted;
+        public event System.IO.RenamedEventHandler Renamed;
+
+        public System.IO.FileSystemWatcher watcher;
         public String Name { get { return this._ComputeName(); } }
         public Guid Id { set; get; }
 
@@ -19,6 +26,8 @@ namespace CodeGenerator.Objects
 
         public Object FileSystemInfo { get { return _ComputeFileSystemInfo(); } }
 
+        public Boolean IsBaseTemplate { set; get; }
+
         public Template(String path)
         {
             ExistsInFileSystem = Directory.Exists(path) || File.Exists(path);
@@ -26,9 +35,22 @@ namespace CodeGenerator.Objects
             MultipleFiles = true;
             if (ExistsInFileSystem)
             {
-                IsDirectory = CheckIsDirectory(path);                
+                IsDirectory = CheckIsDirectory(path);
+                InitFileSystemEvents();
             }
                 
+
+        }
+        public void InitFileSystemEvents()
+        {
+            if (this.IsBaseTemplate) {
+                watcher = new System.IO.FileSystemWatcher();
+                watcher.Path = this.Path;
+                watcher.NotifyFilter = System.IO.NotifyFilters.LastAccess | System.IO.NotifyFilters.LastWrite
+                   | System.IO.NotifyFilters.FileName | System.IO.NotifyFilters.DirectoryName;
+                watcher.IncludeSubdirectories = true;
+                watcher.EnableRaisingEvents = true;
+            }
 
         }
         public static List<Template> PathsToTemplates(String[] Paths)
@@ -38,6 +60,7 @@ namespace CodeGenerator.Objects
                 templates.Add(new Template(path));
             return templates;
         }
+
         public static List<Template> PathsToTemplates(DirectoryInfo[] DirectoryInfos)
         {
             List<Template> templates = new List<Template>();

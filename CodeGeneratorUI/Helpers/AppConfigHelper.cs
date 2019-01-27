@@ -10,11 +10,8 @@ namespace CodeGeneratorUI.Helpers
 {
    public static class AppConfigHelper
     {
+        const string LAST_SELECTED_DATABASE = "LAST_SELECTED_DATABASE";
         const string REPOSITORY_URL = "REPOSITORY_URL";
-        const string LEFT_TAG_UNPROCESSING = "LEFT_TAG_UNPROCESSING";
-        const string RIGHT_TAG_UNPROCESSING = "RIGHT_TAG_UNPROCESSING";
-        const string TEMPLATES_STORAGE_FILE = "TEMPLATES_STORAGE_FILE";
-        const string DATABASES_STORAGE_FILE = "DATABASES_STORAGE_FILE";
         public static NameValueCollection Read()
         {
            return ConfigurationManager.AppSettings;         
@@ -23,22 +20,23 @@ namespace CodeGeneratorUI.Helpers
         {
             return Read().Get(REPOSITORY_URL);
         }
-        public static String GetLeftTagUnprocessing()
+
+        public static void SetLastSelectedDatabase(Guid Id)
         {
-            return Read().Get(LEFT_TAG_UNPROCESSING);
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.AppSettings.Settings.Remove(LAST_SELECTED_DATABASE);
+            config.AppSettings.Settings.Add(LAST_SELECTED_DATABASE, Id.ToString());
+            config.Save(ConfigurationSaveMode.Modified);
         }
-        public static String GetRightTagUnprocessing()
+        public static Guid GetLastSelectedDatabase()
         {
-            return Read().Get(RIGHT_TAG_UNPROCESSING);
+            return Guid.Parse(Read().Get(LAST_SELECTED_DATABASE));
         }
-        public static String GetTemplatesStorageFile()
+        public static bool ExistsLastSelectedDatabase()
         {
-            return Read().Get(TEMPLATES_STORAGE_FILE);
+            return Read().Get(LAST_SELECTED_DATABASE) != null;
         }
-        public static String GetDatabaseStorageFile()
-        {
-            return Read().Get(DATABASES_STORAGE_FILE);
-        }
+
 
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,21 +13,19 @@ using CodeGeneratorUI.Controls;
 using CodeGeneratorUI.windows;
 using CodeGeneratorUI.Windows;
 using DatabaseSchemaReader.DataSchema;
-using DotLiquid;
 using MaterialDesignThemes.Wpf;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using ContextMenu = System.Windows.Controls.ContextMenu;
-using Directory = Alphaleonis.Win32.Filesystem.Directory;
 using DirectoryInfo = Alphaleonis.Win32.Filesystem.DirectoryInfo;
-using File = Alphaleonis.Win32.Filesystem.File;
-using FileInfo = Alphaleonis.Win32.Filesystem.FileInfo;
 using MessageBox = System.Windows.MessageBox;
 using Orientation = System.Windows.Controls.Orientation;
 using Template = CodeGenerator.Objects.Template;
 using TreeView = System.Windows.Controls.TreeView;
 using CodeGeneratorUI.Helpers;
 using CodeGeneratorUI.Validators;
+using System.IO;
+using System.Threading;
 
 namespace CodeGeneratorUI
 {
@@ -37,6 +34,7 @@ namespace CodeGeneratorUI
     /// </summary>
     public partial class MainWindow
     {
+        String OutputPath = @"C:\Users\user-pc\Desktop\output";
         readonly DatabaseStorageHelper _savedDatabases = new DatabaseStorageHelper();
         readonly TemplateStorageHelper _savedTemplates = new TemplateStorageHelper();
         readonly DbSchemaReaderHelper _schemaReader = new DbSchemaReaderHelper();
@@ -50,11 +48,27 @@ namespace CodeGeneratorUI
             try
             {
                 LoadListDatabases();
+                LoadtLastSelectedDatabase();
                 LoadTemplatesTreeView();
             }
             catch (ValidationException exception)
             {
                 MessageBox.Show(exception.Message);
+            }
+        }
+
+        private void LoadtLastSelectedDatabase()
+        {
+            if (Helpers.AppConfigHelper.ExistsLastSelectedDatabase())
+            {
+                Guid id = Helpers.AppConfigHelper.GetLastSelectedDatabase();
+                Database LastSelectedDatabase = _savedDatabases.GetAll().First(db => db.Id == id);
+                Button LastSelectedDatabaseButtonInTree =  ListDatabases.Items.Cast<Button>().First(btn => (btn.Tag as Database).Id == id);
+                ListDatabases.SelectedItem = LastSelectedDatabaseButtonInTree;
+                TreeSchema.Items.Clear();
+                DatabaseSchema schema = _schemaReader.GetSchema(LastSelectedDatabase);
+                this.LoadTablesFromDatabase(schema);
+
             }
         }
 
@@ -99,9 +113,10 @@ namespace CodeGeneratorUI
 
         private void OnClickListDatabase(object sender, RoutedEventArgs e)
         {
-            if (e.Source is Button) return;
-            Database db = (e.Source as Button).Tag as Database;
+            if (!(e.Source is Button)) return;
+            Database db = (e.Source as Button).Tag as Database;            
             DatabaseSchema schema = _schemaReader.GetSchema(db);
+            Helpers.AppConfigHelper.SetLastSelectedDatabase(db.Id);
             TreeSchema.Items.Clear();
             this.LoadTablesFromDatabase(schema);
         }
@@ -145,6 +160,7 @@ namespace CodeGeneratorUI
             if (!string.IsNullOrEmpty(dialog.SelectedPath))
             {
                 Template obj = new Template(dialog.SelectedPath);
+                obj.IsBaseTemplate = true;
                 _savedTemplates.Save(obj);
                 LoadTemplatesTreeView();
             }
@@ -152,13 +168,32 @@ namespace CodeGeneratorUI
 
         private void LoadTemplatesTreeView()
         {
+            
             TreeTemplates.Items.Clear();
             List<Template> templates = _savedTemplates.GetAll();
             ToogleMessageNoTemplates();
             foreach (Template obj in templates)
+            {
                 TreeTemplates.Items.Add(CreateTemplateNode(obj));
+                obj.InitFileSystemEvents();
+                obj.watcher.Deleted += OnTemplateCreatedDeletedRenamed;
+                obj.watcher.Created += OnTemplateCreatedDeletedRenamed;
+                obj.watcher.Renamed += OnTemplateCreatedDeletedRenamed;
+            }
             ToogleMessageNoTemplates();
         }
+
+        private void OnTemplateCreatedDeletedRenamed(object sender, FileSystemEventArgs e)
+        {
+            //while (IOHelper.IsFileLocked(fInfo))
+            //{
+            //    Console.WriteLine("File not ready to use yet (copy process ongoing)");
+            //    Thread.Sleep(5);  //Wait for 5ms
+            //}
+            LoadTemplatesTreeView();
+        }
+
+
         private void ToogleMessageNoTemplates()
         {
             if (AddedTemplates == 0)
@@ -178,114 +213,28 @@ namespace CodeGeneratorUI
             return directoryNode;
         }
 
-        private void DeleteFolderContent(String Path)
-        {
-            DirectoryInfo di = new DirectoryInfo(Path);
-            if (!di.Exists) return;
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.Delete();
-            }
-            foreach (DirectoryInfo dir in di.GetDirectories())
-            {
-                dir.Delete(true);
-            }
-        }
+        
 
         private void OnClickGenerate(object sender, RoutedEventArgs e)
         {
             try
             {
                 (new MainWindowValidator(this)).ValidateGenerate();
-                Button button = ListDatabases.Items[0] as Button;
+                Button button = ListDatabases.SelectedItem as Button;
                 if (button == null) return;
                 Database db = (button.Tag as Database);
                 Template template = _savedTemplates.GetAll().First();
                 DatabaseSchema schema = _schemaReader.GetSchema(db);
-                String outputPath = @"C:\Users\user-pc\Desktop\output"; //TODO: generate for all output paths
-
-                DeleteFolderContent(outputPath);
-                CopyDirectory(template.Path, outputPath);
-                //System.Threading.Thread.Sleep(10);
-                var insides = Directory.GetFiles(outputPath, "*.*",
-                    SearchOption.AllDirectories);
-                foreach (String path in insides)
-                {
-                    String fileContents = File.ReadAllText(path, System.Text.Encoding.Default);
-
-                    var anom = from x in schema.Tables
-                               select new
-                               {
-                                   Name = x.Name,
-                                   HasAutoNumberColumn = x.HasAutoNumberColumn,
-                                   PrimaryKeyCount = x.PrimaryKey.Columns.Count,
-                                   PrimaryKeyFirstName = x.PrimaryKey.Columns.First(),
-                                   PrimaryKeyColumns = from y in x.Columns
-                                                       where y.IsPrimaryKey
-                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   AutoNumberColumns = from y in x.Columns
-                                                       where y.IsAutoNumber
-                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   ForeignKeyColumns = from y in x.Columns
-                                                       where y.IsForeignKey
-                                                       select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   NonAutoNumberColumns = from y in x.Columns
-                                                          where !y.IsAutoNumber
-                                                          select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   NonPrimaryKeyColumns = from y in x.Columns
-                                                          where !y.IsPrimaryKey
-                                                          select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   NonForeignKeyColumns = from y in x.Columns
-                                                          where !y.IsForeignKey
-                                                          select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber },
-                                   Columns = from y in x.Columns
-                                             select new { Name = y.Name, DataType = y.DataType.TypeName, Nullable = y.Nullable, IsPrimaryKey = y.IsPrimaryKey, IsForeignKey = y.IsForeignKey, Lenght = y.Length, IsAutoNumber = y.IsAutoNumber }
-                               };
-
-
-
-
-                    // start: single file
-                    //DotLiquid.Template templateLiquid = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
-                    //String compiledOutput = templateLiquid.Render(Hash.FromAnonymousObject(new { tables = anom }, true));
-                    //compiledOutput = compiledOutput.Replace(@"'}'}'", "}}");
-                    //compiledOutput = compiledOutput.Replace(@"'{'{'", "{{");
-                    //File.WriteAllText(path, compiledOutput);
-                    // end: single file
-
-                    //start: multiple file
-                    foreach (var table in anom)
-                    {
-                        DotLiquid.Template templateLiquidMultiple = DotLiquid.Template.Parse(@fileContents); // Parses and compiles the template                
-                        String compiledOutputMultiple = templateLiquidMultiple.Render(Hash.FromAnonymousObject(new { table = table }, true));
-                        DotLiquid.Template templateLiquidFileName = DotLiquid.Template.Parse(path); // Parses and compiles the template                
-                        String compiledFileName = templateLiquidFileName.Render(Hash.FromAnonymousObject(new { table = table }, true));
-                        compiledOutputMultiple = compiledOutputMultiple.Replace(CodeGeneratorUI.Helpers.AppConfigHelper.GetRightTagUnprocessing(), "}}");
-                        compiledOutputMultiple = compiledOutputMultiple.Replace(CodeGeneratorUI.Helpers.AppConfigHelper.GetLeftTagUnprocessing(), "{{");
-                        //File.Create(CompiledFileName);
-                        File.WriteAllText(compiledFileName, compiledOutputMultiple, System.Text.Encoding.Default);
-                    }
-                    //end: multiple file
-                }
+                Generator.Generate(schema, template.Path, OutputPath);
                 MdDialog.IsOpen = true;
-                Process.Start(outputPath);
+                Process.Start(OutputPath);
             }
             catch (ValidationException ex)
             {
                 MessageBox.Show(ex.Message);
             }
 
-        }
-        private void CopyDirectory(String sourcePath, String destinationPath)
-        {
-            foreach (string dirPath in Directory.GetDirectories(sourcePath, "*",
-                SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(sourcePath, destinationPath));            
-            foreach (string newPath in Directory.GetFiles(sourcePath, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(sourcePath, destinationPath), true);
-        }
+        }        
 
         private void OnClickGotoGit(object sender, MouseButtonEventArgs e)
         {
@@ -332,9 +281,7 @@ namespace CodeGeneratorUI
         {            
             TreeViewItem selectedTreeViewItem = TreeTemplates.SelectedItem as TreeViewItem;
             Template template = (selectedTreeViewItem.Tag as Template);
-            if (!template.IsDirectory)
-            new WinCodeEditor(template).ShowDialog();
-            LoadTemplatesTreeView();
+            if (!template.IsDirectory) new WinCodeEditor(template).ShowDialog();            
         }
 
         private void OnClickOpenPathTemplate(object sender, RoutedEventArgs e)
@@ -344,5 +291,7 @@ namespace CodeGeneratorUI
             String Path = ((TreeTemplates.SelectedItem as TreeViewItem).Tag as Template).Path;
             Process.Start(Path);               
         }
+
+ 
     }
 }

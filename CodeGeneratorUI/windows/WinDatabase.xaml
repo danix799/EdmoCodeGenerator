@@ -8,7 +8,7 @@
                    xmlns:validators="clr-namespace:CodeGeneratorUI.Validators"
                    Icon="../img/app_icon.png"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        WindowStartupLocation="CenterScreen" Height="400" Width="500"
+        WindowStartupLocation="CenterScreen" Height="400" Width="600"
         Title="{x:Static p:Resources.database}" MinHeight="400" MinWidth="500">
     <Grid Margin="10">
         <md:DialogHost Name="MdDialog" HorizontalAlignment="Center" VerticalAlignment="Center" IsOpen="False" >
@@ -25,7 +25,7 @@
         
         <StackPanel x:Name="SpForm">
             <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.name}"/>
-            <TextBox x:Name="TxtName" SpellCheck.IsEnabled="True">
+            <TextBox x:Name="TxtName" >
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -45,12 +45,12 @@
                 </ComboBox.SelectedItem>
             </ComboBox>
             <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.owner_for_mysql_databases}"/>
-            <TextBox x:Name="TxtOwner" SpellCheck.IsEnabled="True" >
+            <TextBox x:Name="TxtOwner" >
                 
             </TextBox>
 
             <TextBlock Style="{StaticResource TextBlockFormLabel}" Text="{x:Static p:Resources.connectionstring}"/>
-            <TextBox x:Name="TxtConnectionString" SpellCheck.IsEnabled="True">
+            <TextBox x:Name="TxtConnectionString">
                 <TextBox.Text>
                     <Binding Path="Name" UpdateSourceTrigger="PropertyChanged">
                         <Binding.ValidationRules>
@@ -58,9 +58,10 @@
                         </Binding.ValidationRules>
                     </Binding>
                 </TextBox.Text>
-            </TextBox>       
-        
-    </StackPanel>
+            </TextBox>
+            <TextBox Style="{StaticResource TextBoxDisabled}" x:Name="txtSuggestedConnectionString"/>
+
+        </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Button Click="OnClickSaveDatabase" Margin="0,0,10,0">
                 <StackPanel Orientation="Horizontal">

@@ -232,6 +232,15 @@ namespace CodeGeneratorUI.Properties {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Information.
+        /// </summary>
+        public static string information {
+            get {
+                return ResourceManager.GetString("information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Modify.
         /// </summary>
         public static string modify {
@@ -363,6 +372,15 @@ namespace CodeGeneratorUI.Properties {
         public static string select_a_provider {
             get {
                 return ResourceManager.GetString("select_a_provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Settings.
+        /// </summary>
+        public static string settings {
+            get {
+                return ResourceManager.GetString("settings", resourceCulture);
             }
         }
         

@@ -44,6 +44,8 @@
                     </StackPanel>
                 </Button>
                 <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right"  >
+                    <md:PackIcon Kind="Settings"   Foreground="White" Height="30" Width="30" ToolTip="{x:Static p:Resources.settings}" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
+                    <md:PackIcon Kind="InformationOutline"   Foreground="White" Height="30" Width="30" ToolTip="{x:Static p:Resources.information}" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit" Margin="10,0"></md:PackIcon>                    
                     <md:PackIcon Kind="GithubCircle"   Foreground="White" Height="30" Width="30" ToolTip="{x:Static p:Resources.go_to_github}" Cursor="Hand" Background="{StaticResource AccentColorBrush}" MouseUp="OnClickGotoGit"></md:PackIcon>
                 </StackPanel>
 

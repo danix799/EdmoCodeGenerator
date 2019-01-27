@@ -54,6 +54,14 @@
             <Style TargetType="TextBlock" x:Key="TextBlockFormLabel">
                 <Setter Property="Margin" Value="0,20,0,0"/>
             </Style>
+            <Style TargetType="TextBlock" x:Key="TextBlockDisabled">
+                <Setter Property="Foreground" Value="Gray"/>
+            </Style>
+            <Style TargetType="TextBox" x:Key="TextBoxDisabled">
+                <Setter Property="Foreground" Value="Gray"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
             <SolidColorBrush x:Key="DisabledColor" Color="Gray"></SolidColorBrush>
         </ResourceDictionary>
     </Application.Resources>
