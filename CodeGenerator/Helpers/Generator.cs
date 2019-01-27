@@ -3,9 +3,11 @@ using CodeGenerator.Objects;
 using DatabaseSchemaReader.DataSchema;
 using DotLiquid;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,9 +20,9 @@ namespace CodeGenerator.Helpers
             IOHelper.DeleteFolderContent(OutputPath);
             IOHelper.CopyDirectory(TemplatePath, OutputPath);
             System.Threading.Thread.Sleep(1);
-            String[] FilePaths = Alphaleonis.Win32.Filesystem.Directory.GetFiles(TemplatePath, "*.*",
+            String[] FilePaths = Alphaleonis.Win32.Filesystem.Directory.GetFiles(OutputPath, "*.*",
                 SearchOption.AllDirectories);
-            foreach(String FilePath in FilePaths)
+            foreach (String FilePath in FilePaths)
             {
                 Boolean IsMultiGeneration = CheckIsMultiGeneration(FilePath);
                 if (IsMultiGeneration)
@@ -29,6 +31,7 @@ namespace CodeGenerator.Helpers
                     GenerateForOneFile(Schema, FilePath, OutputPath);
             }
         }
+
         private static Boolean CheckIsMultiGeneration(String FilePath)
         {
             return DotLiquid.Template.Parse(FilePath).Root.NodeList.Count > 0;
@@ -40,8 +43,8 @@ namespace CodeGenerator.Helpers
                    {
                        Name = Table.Name,
                        HasAutoNumberColumn = Table.HasAutoNumberColumn,
-                       PrimaryKeyCount = Table.PrimaryKey.Columns.Count,
-                       PrimaryKeyFirstName = Table.PrimaryKey.Columns.First(),
+                       PrimaryKeyCount = Table.PrimaryKey != null ? Table.PrimaryKey.Columns.Count : 0,
+                       PrimaryKeyFirstName = Table.PrimaryKey != null ? Table.PrimaryKey.Columns.First() : null,
                        PrimaryKeyColumns = GetPrimaryKeyColumns(Table),
                        AutoNumberColumns = GetAutoNumberColumns(Table),
                        ForeignKeyColumns = GetForeignKeyColumns(Table),
@@ -76,47 +79,42 @@ namespace CodeGenerator.Helpers
                 File.WriteAllText(compiledFileName, compiledOutputMultiple, System.Text.Encoding.Default);
             }
         }
+        private static dynamic GetColumns(DatabaseTable Table, Predicate<DatabaseColumn> Filter = null)
+        {
+            return (from Column in Table.Columns                    
+                    where Filter != null ? Filter(Column) : true
+            select new { Name = Column.Name,
+                        DataType = Column.DataType.TypeName,
+                        Nullable = Column.Nullable,
+                        IsPrimaryKey = Column.IsPrimaryKey,
+                        IsForeignKey = Column.IsForeignKey,
+                        Lenght = Column.Length,
+                        IsAutoNumber = Column.IsAutoNumber });
+        }
         private static dynamic GetPrimaryKeyColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where Column.IsPrimaryKey
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => a.IsPrimaryKey);
         }
         private static dynamic GetAutoNumberColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where Column.IsAutoNumber
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => a.IsAutoNumber);
         }
         private static dynamic GetForeignKeyColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where Column.IsForeignKey
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => a.IsForeignKey);
         }
         private static dynamic GetNonAutoNumberColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where Column.IsAutoNumber
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => !a.IsAutoNumber);
         }
         private static dynamic GetNonPrimaryKeyColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where !Column.IsPrimaryKey
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => !a.IsPrimaryKey);
         }
         private static dynamic GetNonForeignKeyColumns(DatabaseTable Table)
         {
-            return from Column in Table.Columns
-                   where !Column.IsForeignKey
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
+            return GetColumns(Table, a => !a.IsForeignKey);
+
         }
-        private static dynamic GetColumns(DatabaseTable Table)
-        {
-            return from Column in Table.Columns
-                   select new { Name = Column.Name, DataType = Column.DataType.TypeName, Nullable = Column.Nullable, IsPrimaryKey = Column.IsPrimaryKey, IsForeignKey = Column.IsForeignKey, Lenght = Column.Length, IsAutoNumber = Column.IsAutoNumber };
-        }
-        
     }
 }

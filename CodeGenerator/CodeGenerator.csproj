@@ -67,6 +67,8 @@
     <Compile Include="Helpers\DotLiquidHelper.cs" />
     <Compile Include="Helpers\Generator.cs" />
     <Compile Include="Helpers\IOHelper.cs" />
+    <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Objects\EdmoDatabaseColumn.cs" />
     <Compile Include="Storage\DatabaseStorageHelper.cs" />
     <Compile Include="Storage\StorageHelper.cs" />
     <Compile Include="Storage\TemplateStorageHelper.cs" />
